@@ -2,11 +2,15 @@ package com.github.smac89
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 
 class AspectJTask extends DefaultTask {
+    @Input
     SourceSet sourceSet
+
+    @Input
     Map<String, String> aspectjOpts
 
     AspectJTask() {
@@ -46,16 +50,16 @@ class AspectJTask extends DefaultTask {
 
     //https://github.com/sedovalx/gradle-aspectj-binary/blob/master/plugin/src/main/kotlin/com/github/sedovalx/gradle/aspectj/AjcTask.kt
     @TaskAction
-    void compileAspect() {
+    def compileAspect() {
         def iAspectjOpts = [
                 maxmem       : '1024m',
                 fork         : 'true',
                 Xlint        : 'ignore',
                 proc         : 'none',
                 sourceRoots  : sourceSet.java.sourceDirectories.asPath,
-                destDir      : sourceSet.output.classesDir.absolutePath,
+                destDir      : sourceSet.output.classesDirs.asPath,
                 aspectPath   : project.configurations.aspects.asPath,
-                inpath       : sourceSet.output.classesDir.absolutePath,
+                inpath       : sourceSet.output.classesDirs.asPath,
                 classpath    : (sourceSet.compileClasspath + sourceSet.runtimeClasspath).filter { it.exists() }.asPath,
                 source       : project.sourceCompatibility,
                 target       : project.targetCompatibility,
@@ -71,7 +75,7 @@ class AspectJTask extends DefaultTask {
         ant.iajc(iAspectjOpts)
     }
 
-    AspectJExtension getAspectJ() {
+    def getAspectJ() {
         return project.extensions.create('aspectj', AspectJExtension, project)
     }
 }
