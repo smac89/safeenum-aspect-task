@@ -13,6 +13,8 @@ class AspectJTask extends DefaultTask {
     @Input
     Map<String, String> aspectjOpts
 
+    AspectJExtension aspectj = project.extensions.create('aspectj', AspectJExtension, project)
+
     AspectJTask() {
         if (!project.configurations.findByName('ajc')) {
             project.configurations.create('ajc').extendsFrom(project.configurations.getByName('compileOnly'))
@@ -75,7 +77,7 @@ class AspectJTask extends DefaultTask {
         ant.iajc(iAspectjOpts)
     }
 
-    def getAspectJ() {
-        return project.extensions.create('aspectj', AspectJExtension, project)
+    AspectJExtension getAspectJ() {
+        return aspectj
     }
 }
