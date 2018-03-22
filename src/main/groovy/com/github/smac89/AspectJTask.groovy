@@ -13,7 +13,8 @@ class AspectJTask extends DefaultTask {
     @Input
     Map<String, String> aspectjOpts
 
-    AspectJExtension aspectj = project.extensions.create('aspectj', AspectJExtension, project)
+    @Input
+    String aspectjVersion = '1.8.13'
 
     AspectJTask() {
         if (!project.configurations.findByName('ajc')) {
@@ -30,8 +31,8 @@ class AspectJTask extends DefaultTask {
             }
 
             p.dependencies {
-                ajc "org.aspectj:aspectjtools:${aspectj.version}"
-                compile "org.aspectj:aspectjrt:${aspectj.version}"
+                ajc "org.aspectj:aspectjtools:${aspectjVersion}"
+                compile "org.aspectj:aspectjrt:${aspectjVersion}"
             }
 
             if (sourceSet.name == "main" || sourceSet.name.isEmpty()) {
@@ -75,9 +76,5 @@ class AspectJTask extends DefaultTask {
         ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
                 classpath: project.configurations.ajc.asPath)
         ant.iajc(iAspectjOpts)
-    }
-
-    AspectJExtension getAspectJ() {
-        return aspectj
     }
 }
