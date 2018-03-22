@@ -6,8 +6,6 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 
 class AspectJTask extends DefaultTask {
-    private def aspectj = project.extensions.create('aspectj', AspectJExtension, project)
-
     SourceSet sourceSet
     Map<String, String> aspectjOpts
 
@@ -48,7 +46,7 @@ class AspectJTask extends DefaultTask {
 
     //https://github.com/sedovalx/gradle-aspectj-binary/blob/master/plugin/src/main/kotlin/com/github/sedovalx/gradle/aspectj/AjcTask.kt
     @TaskAction
-    def compileAspect() {
+    void compileAspect() {
         def iAspectjOpts = [
                 maxmem       : '1024m',
                 fork         : 'true',
@@ -71,5 +69,9 @@ class AspectJTask extends DefaultTask {
         ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
                 classpath: project.configurations.ajc.asPath)
         ant.iajc(iAspectjOpts)
+    }
+
+    AspectJExtension getAspectJ() {
+        project.extensions.create('aspectj', AspectJExtension, project)
     }
 }
