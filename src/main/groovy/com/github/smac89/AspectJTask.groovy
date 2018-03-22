@@ -72,6 +72,6 @@ class AspectJTask extends DefaultTask {
     }
 
     AspectJExtension getAspectJ() {
-        project.extensions.create('aspectj', AspectJExtension, project)
+        return project.extensions.create('aspectj', AspectJExtension, project)
     }
 }
