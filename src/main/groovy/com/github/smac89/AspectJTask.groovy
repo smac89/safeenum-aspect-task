@@ -6,9 +6,10 @@ import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 
 class AspectJTask extends DefaultTask {
-    public SourceSet sourceSet
-    public Map<String, String> aspectjOpts
-    private AspectJExtension aspectj = project.extensions.create('aspectj', AspectJExtension, project)
+    private def aspectj = project.extensions.create('aspectj', AspectJExtension, project)
+
+    SourceSet sourceSet
+    Map<String, String> aspectjOpts
 
     AspectJTask() {
         if (!project.configurations.findByName('ajc')) {
@@ -29,7 +30,7 @@ class AspectJTask extends DefaultTask {
                 compile "org.aspectj:aspectjrt:${aspectj.version}"
             }
 
-            if (sourceSet.name == "main") {
+            if (sourceSet.name == "main" || sourceSet.name.isEmpty()) {
                 p.tasks.getByName('classes', {
                     it.dependsOn this
                     it.dependsOn.remove 'compileJava'
