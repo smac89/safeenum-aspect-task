@@ -8,10 +8,10 @@ import org.gradle.api.tasks.TaskAction
 
 class AspectJTask extends DefaultTask {
     @Input
-    SourceSet sourceSet
+    SourceSet sourceSet = project.sourceSets.main
 
     @Input
-    Map<String, String> aspectjOpts
+    Map<String, String> aspectjOpts = [:]
 
     @Input
     String aspectjVersion = '1.8.13'
@@ -67,11 +67,7 @@ class AspectJTask extends DefaultTask {
                 source       : project.sourceCompatibility,
                 target       : project.targetCompatibility,
                 showWeaveInfo: 'true',
-        ]
-
-        if (aspectjOpts) {
-            iAspectjOpts += aspectjOpts
-        }
+        ] + aspectjOpts
 
         ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
                 classpath: project.configurations.ajc.asPath)
