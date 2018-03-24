@@ -32,7 +32,10 @@ class AspectJTask extends DefaultTask {
 
             p.dependencies {
                 ajc "org.aspectj:aspectjtools:${aspectjVersion}"
-                compile "org.aspectj:aspectjrt:${aspectjVersion}"
+            }
+
+            if (!project.configurations.compile.resolvedConfiguration.resolvedArtifacts.find { it.name == 'aspectjrt' }) {
+                p.dependencies.add("compile", "org.aspectj:aspectjrt:${aspectjVersion}")
             }
 
             if (sourceSet.name == "main" || sourceSet.name.isEmpty()) {
