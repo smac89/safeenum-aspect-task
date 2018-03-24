@@ -38,20 +38,21 @@ class AspectJTask extends DefaultTask {
             if (sourceSet.name == "main" || sourceSet.name.isEmpty()) {
                 p.tasks.getByName('classes', {
                     it.dependsOn this
-                    it.dependsOn.remove 'compileJava'
-                    this.dependsOn 'compileJava'
+                    if (it.dependsOn.remove('compileJava')) {
+                        this.dependsOn 'compileJava'
+                    }
                 })
             } else {
                 p.tasks.getByName(String.format("%sClasses", sourceSet.name), {
                     it.dependsOn this
-                    it.dependsOn.remove String.format("compile%sJava", sourceSet.name.capitalize())
-                    this.dependsOn String.format("compile%sJava", sourceSet.name.capitalize())
+                    if (it.dependsOn.remove(String.format("compile%sJava", sourceSet.name.capitalize()))) {
+                        this.dependsOn String.format("compile%sJava", sourceSet.name.capitalize())
+                    }
                 })
             }
         }
     }
 
-    //https://github.com/sedovalx/gradle-aspectj-binary/blob/master/plugin/src/main/kotlin/com/github/sedovalx/gradle/aspectj/AjcTask.kt
     @TaskAction
     def compileAspect() {
         def iAspectjOpts = [
