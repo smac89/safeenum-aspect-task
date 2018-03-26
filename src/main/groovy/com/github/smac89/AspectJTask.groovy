@@ -2,6 +2,7 @@ package com.github.smac89
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 
@@ -45,8 +46,6 @@ class AspectJTask extends DefaultTask {
                     }
                 })
             }
-
-            sourceSet.java.sourceDirectories.each { inputs.dir it }
         }
     }
 
