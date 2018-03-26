@@ -62,7 +62,7 @@ class AspectJTask extends DefaultTask {
                 sourceRoots  : sourceSet.java.sourceDirectories.asPath,
                 destDir      : sourceSet.output.classesDirs.asPath,
                 aspectPath   : project.configurations.aspects.asPath,
-                inpath       : sourceSet.output.classesDirs.asPath,
+                inpath       : (sourceSet.output.classesDirs + sourceSet.compileClasspath).asPath,
                 classpath    : (sourceSet.compileClasspath + sourceSet.runtimeClasspath).filter { it.exists() }.asPath,
                 source       : project.sourceCompatibility,
                 target       : project.targetCompatibility,
