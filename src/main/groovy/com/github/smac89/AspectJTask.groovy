@@ -35,6 +35,7 @@ class AspectJTask extends DefaultTask {
             }
 
             if (!project.configurations.compile.resolvedConfiguration.resolvedArtifacts.find { it.name == 'aspectjrt' }) {
+                p.configurations.compile.resolve()
                 p.dependencies.add("compile", "org.aspectj:aspectjrt:${aspectjVersion}")
             }
 
