@@ -58,7 +58,7 @@ class AspectJTask extends DefaultTask {
                 Xlint        : 'ignore',
                 proc         : 'none',
                 sourceRoots  : sourceSet.java.sourceDirectories.asPath,
-                destDir      : sourceSet.output.classesDir.absolutePath,
+                destDir      : sourceSet.java.outputDir.absolutePath,
                 aspectPath   : project.configurations.aspects.asPath,
                 inpath       : sourceSet.compileClasspath.asPath,
                 classpath    : (sourceSet.compileClasspath + sourceSet.runtimeClasspath).filter { it.exists() }.asPath,
